@@ -1,15 +1,30 @@
+import { Routes, Route } from "react-router-dom";
 
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 
-import './App.css'
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-
-
   return (
-    <>
-   <h1 className='bg-red-500 '>Welcome to raect </h1>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<Login />} />
+
+      <Route path="/login" element={<Login />} />
+
+      <Route path="/register" element={<Register />} />
+
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  );
 }
 
-export default App
+export default App;

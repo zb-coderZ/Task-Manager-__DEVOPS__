@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 require("dotenv").config();
 
 const connectDB = require("./config/db");
@@ -8,14 +9,21 @@ const taskRoutes = require("./routes/taskRoutes");
 
 const app = express();
 
-// Middleware
+// CORS Middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
+
+// Body Parser Middleware
 app.use(express.json());
 
 // Database Connection
 connectDB();
 
-// routes
-
+// API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 
