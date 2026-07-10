@@ -1,11 +1,11 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 const protect = (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
     return res.status(401).json({
-      message: "Not authorized",
+      message: 'Not authorized',
     });
   }
 
@@ -16,8 +16,9 @@ const protect = (req, res, next) => {
 
     next();
   } catch (error) {
+    console.log(error);
     res.status(401).json({
-      message: "Invalid token",
+      message: 'Invalid token',
     });
   }
 };

@@ -1,6 +1,6 @@
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const User = require('../models/User');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const registerUser = async (req, res) => {
   try {
@@ -15,7 +15,7 @@ const registerUser = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "User registered successfully",
+      message: 'User registered successfully',
       user,
     });
   } catch (error) {
@@ -33,21 +33,21 @@ const loginUser = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "User not found",
+        message: 'User not found',
       });
     }
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
       return res.status(401).json({
-        message: "Invalid password",
+        message: 'Invalid password',
       });
     }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn: '7d',
     });
     res.json({
-      message: "Login successful",
+      message: 'Login successful',
       token,
     });
   } catch (error) {

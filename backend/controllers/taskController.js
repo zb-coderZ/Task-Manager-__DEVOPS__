@@ -1,4 +1,4 @@
-const Task = require("../models/Task");
+const Task = require('../models/Task');
 
 const getTasks = async (req, res) => {
   try {
@@ -27,7 +27,7 @@ const createTask = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Task created successfully",
+      message: 'Task created successfully',
       task,
     });
   } catch (error) {
@@ -43,11 +43,11 @@ const updateTask = async (req, res) => {
       _id: req.params.id,
       user: req.user.id,
     });
-    console.log("Request body:", req.body);
+    console.log('Request body:', req.body);
 
     if (!task) {
       return res.status(404).json({
-        message: "Task not found",
+        message: 'Task not found',
       });
     }
 
@@ -60,7 +60,7 @@ const updateTask = async (req, res) => {
     const updatedTask = await task.save();
 
     res.json({
-      message: "Task updated successfully",
+      message: 'Task updated successfully',
       task: updatedTask,
     });
   } catch (error) {
@@ -79,14 +79,14 @@ const deleteTask = async (req, res) => {
 
     if (!task) {
       return res.status(404).json({
-        message: "Task not found",
+        message: 'Task not found',
       });
     }
 
     await task.deleteOne();
 
     res.json({
-      message: "Task deleted successfully",
+      message: 'Task deleted successfully',
     });
   } catch (error) {
     res.status(500).json({

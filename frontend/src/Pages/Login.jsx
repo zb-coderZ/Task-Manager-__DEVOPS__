@@ -1,14 +1,14 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const handleChange = (e) => {
@@ -27,12 +27,12 @@ function Login() {
 
       console.log(response);
 
-      alert("Login Successful");
-      navigate("/dashboard", { replace: true });
+      alert('Login Successful');
+      navigate('/dashboard', { replace: true });
     } catch (error) {
       console.log(error.response);
 
-      alert(error.response?.data?.message || "Login failed");
+      alert(error.response?.data?.message || 'Login failed');
     }
   };
 
@@ -70,7 +70,7 @@ function Login() {
 
         <div className="mt-6 text-center">
           <p className="text-sm text-slate-600">
-            New here?{" "}
+            New here?{' '}
             <Link
               to="/register"
               className="font-semibold text-blue-600 transition hover:text-blue-700"

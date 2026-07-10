@@ -3,6 +3,7 @@
 A professional React frontend for the MERN Task Manager application.
 
 This project focuses on building a complete full-stack workflow:
+
 - React frontend communication with Express backend
 - JWT authentication
 - Protected routes
@@ -112,7 +113,7 @@ Created centralized API service:
 
 src/services/api.js
 
-````
+```
 
 Purpose:
 
@@ -123,15 +124,13 @@ Purpose:
 Example:
 
 ```javascript
-API.get("/tasks")
-````
+API.get('/tasks');
+```
 
 instead of:
 
 ```javascript
-axios.get(
-"http://localhost:5000/api/tasks"
-)
+axios.get('http://localhost:5000/api/tasks');
 ```
 
 ---
@@ -166,18 +165,18 @@ utils/token.js
 
 Handles:
 
-* Save JWT token
-* Get JWT token
-* Remove JWT token
+- Save JWT token
+- Get JWT token
+- Remove JWT token
 
 Functions:
 
 ```javascript
-setToken()
+setToken();
 
-getToken()
+getToken();
 
-removeToken()
+removeToken();
 ```
 
 ---
@@ -194,10 +193,10 @@ Global authentication management.
 
 Handles:
 
-* Register user
-* Login user
-* Logout user
-* Store authentication state
+- Register user
+- Login user
+- Logout user
+- Store authentication state
 
 Flow:
 
@@ -229,11 +228,11 @@ pages/Register.jsx
 
 Features:
 
-* Name input
-* Email input
-* Password input
-* Form handling
-* Backend API connection
+- Name input
+- Email input
+- Password input
+- Form handling
+- Backend API connection
 
 API:
 
@@ -271,10 +270,10 @@ pages/Login.jsx
 
 Features:
 
-* Email login
-* Password authentication
-* JWT token receiving
-* Token storage
+- Email login
+- Password authentication
+- JWT token receiving
+- Token storage
 
 API:
 
@@ -350,9 +349,9 @@ GET /api/tasks
 
 Features:
 
-* Fetch logged-in user's tasks
-* Display task data
-* JWT automatically attached
+- Fetch logged-in user's tasks
+- Display task data
+- JWT automatically attached
 
 Flow:
 
@@ -388,10 +387,10 @@ components/TaskForm.jsx
 
 Features:
 
-* Create new tasks
-* Title
-* Description
-* Priority
+- Create new tasks
+- Title
+- Description
+- Priority
 
 API:
 

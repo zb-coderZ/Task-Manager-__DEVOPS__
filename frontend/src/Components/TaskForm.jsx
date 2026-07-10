@@ -1,11 +1,11 @@
-import { useState } from "react";
-import API from "../services/api";
+import { useState } from 'react';
+import API from '../services/api';
 
 function TaskForm({ fetchTasks }) {
   const [task, setTask] = useState({
-    title: "",
-    description: "",
-    priority: "Medium",
+    title: '',
+    description: '',
+    priority: 'Medium',
   });
 
   const handleChange = (e) => {
@@ -19,12 +19,12 @@ function TaskForm({ fetchTasks }) {
     e.preventDefault();
 
     try {
-      await API.post("/tasks", task);
+      await API.post('/tasks', task);
 
       setTask({
-        title: "",
-        description: "",
-        priority: "Medium",
+        title: '',
+        description: '',
+        priority: 'Medium',
       });
 
       fetchTasks();
@@ -39,19 +39,14 @@ function TaskForm({ fetchTasks }) {
       className="space-y-4 rounded-3xl border border-slate-200 bg-white/95 p-5 shadow-lg sm:p-6"
     >
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-cyan-700">
-          Add Task
-        </p>
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-cyan-700">Add Task</p>
         <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">
           Plan your next action
         </h2>
       </div>
 
       <div className="space-y-2">
-        <label
-          className="block text-sm font-medium text-slate-700"
-          htmlFor="task-title"
-        >
+        <label className="block text-sm font-medium text-slate-700" htmlFor="task-title">
           Task title
         </label>
         <input
@@ -66,10 +61,7 @@ function TaskForm({ fetchTasks }) {
       </div>
 
       <div className="space-y-2">
-        <label
-          className="block text-sm font-medium text-slate-700"
-          htmlFor="task-description"
-        >
+        <label className="block text-sm font-medium text-slate-700" htmlFor="task-description">
           Description
         </label>
         <textarea
@@ -83,10 +75,7 @@ function TaskForm({ fetchTasks }) {
       </div>
 
       <div className="space-y-2">
-        <label
-          className="block text-sm font-medium text-slate-700"
-          htmlFor="task-priority"
-        >
+        <label className="block text-sm font-medium text-slate-700" htmlFor="task-priority">
           Priority
         </label>
         <select

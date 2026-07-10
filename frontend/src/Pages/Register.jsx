@@ -1,13 +1,13 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 function Register() {
   const { register } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
   });
 
   const handleChange = (e) => {
@@ -25,11 +25,11 @@ function Register() {
 
       console.log(data);
 
-      alert("Registration Successful");
+      alert('Registration Successful');
     } catch (error) {
       console.log(error);
 
-      alert(error.response?.data?.message || "Registration failed");
+      alert(error.response?.data?.message || 'Registration failed');
     }
   };
 
@@ -38,9 +38,7 @@ function Register() {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
         <h1 className="text-3xl font-bold text-center mb-2">Create Account</h1>
 
-        <p className="text-gray-500 text-center mb-6">
-          Join Task Manager today
-        </p>
+        <p className="text-gray-500 text-center mb-6">Join Task Manager today</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input

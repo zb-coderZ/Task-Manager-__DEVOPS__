@@ -1,33 +1,31 @@
-import { useState } from "react";
-import API from "../services/api";
+import { useState } from 'react';
+import API from '../services/api';
 
 function TaskCard({ task, fetchTasks }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState({
     title: task.title,
-    description: task.description || "",
+    description: task.description || '',
     status: task.status,
     priority: task.priority,
   });
 
   const statusStyles = {
-    Pending: "bg-amber-100 text-amber-700",
-    "In Progress": "bg-blue-100 text-blue-700",
-    Completed: "bg-emerald-100 text-emerald-700",
+    Pending: 'bg-amber-100 text-amber-700',
+    'In Progress': 'bg-blue-100 text-blue-700',
+    Completed: 'bg-emerald-100 text-emerald-700',
   };
 
   const priorityStyles = {
-    Low: "bg-slate-100 text-slate-700",
-    Medium: "bg-orange-100 text-orange-700",
-    High: "bg-rose-100 text-rose-700",
+    Low: 'bg-slate-100 text-slate-700',
+    Medium: 'bg-orange-100 text-orange-700',
+    High: 'bg-rose-100 text-rose-700',
   };
 
-  const statusClass =
-    statusStyles[task.status] || "bg-slate-100 text-slate-700";
-  const priorityClass =
-    priorityStyles[task.priority] || "bg-slate-100 text-slate-700";
-  const canEdit = task.status === "Pending" || task.status === "Completed";
+  const statusClass = statusStyles[task.status] || 'bg-slate-100 text-slate-700';
+  const priorityClass = priorityStyles[task.priority] || 'bg-slate-100 text-slate-700';
+  const canEdit = task.status === 'Pending' || task.status === 'Completed';
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -39,7 +37,7 @@ function TaskCard({ task, fetchTasks }) {
   const handleCancel = () => {
     setFormData({
       title: task.title,
-      description: task.description || "",
+      description: task.description || '',
       status: task.status,
       priority: task.priority,
     });
@@ -54,7 +52,7 @@ function TaskCard({ task, fetchTasks }) {
       await fetchTasks();
     } catch (error) {
       console.log(error.response);
-      alert(error.response?.data?.message || "Failed to update task");
+      alert(error.response?.data?.message || 'Failed to update task');
     } finally {
       setIsSaving(false);
     }
@@ -104,25 +102,19 @@ function TaskCard({ task, fetchTasks }) {
             </div>
           ) : (
             <div>
-              <h3 className="text-lg font-semibold text-slate-900">
-                {task.title}
-              </h3>
+              <h3 className="text-lg font-semibold text-slate-900">{task.title}</h3>
               <p className="mt-1 text-sm text-slate-600">
-                {task.description || "No description provided."}
+                {task.description || 'No description provided.'}
               </p>
             </div>
           )}
         </div>
 
         <div className="flex gap-2">
-          <span
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${statusClass}`}
-          >
+          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusClass}`}>
             {task.status}
           </span>
-          <span
-            className={`rounded-full px-3 py-1 text-xs font-semibold ${priorityClass}`}
-          >
+          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${priorityClass}`}>
             {task.priority}
           </span>
         </div>
@@ -145,7 +137,7 @@ function TaskCard({ task, fetchTasks }) {
               className="rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
               disabled={isSaving || !formData.title.trim()}
             >
-              {isSaving ? "Saving..." : "Save"}
+              {isSaving ? 'Saving...' : 'Save'}
             </button>
           </>
         ) : (
