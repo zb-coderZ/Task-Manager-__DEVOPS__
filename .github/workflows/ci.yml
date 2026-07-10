@@ -12,13 +12,16 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
 
       # Backend
 
@@ -41,8 +44,9 @@ jobs:
         run: npm run lint -- --max-warnings=0
 
       # Docker build
-      - name: build backend image
+
+      - name: Build backend image
         run: docker build -t backend ./backend
 
-      - name: build frontend image
+      - name: Build frontend image
         run: docker build -t frontend ./frontend
