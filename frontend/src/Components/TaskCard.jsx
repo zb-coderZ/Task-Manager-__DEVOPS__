@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import API from '../services/api';
+import API from '../Services/api';
 
 function TaskCard({ task, fetchTasks }) {
   const [isEditing, setIsEditing] = useState(false);
