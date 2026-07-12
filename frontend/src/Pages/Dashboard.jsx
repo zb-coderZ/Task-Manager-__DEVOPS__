@@ -41,6 +41,9 @@ function Dashboard() {
               <p className="mt-2 max-w-2xl text-slate-600">
                 Add tasks, set priorities, and keep every important action in one clean workspace.
               </p>
+              <p className="mt-2 max-w-2xl text-slate-600">
+                Turn your goals into actions, your actions into habits, and your habits into success
+              </p>
             </div>
 
             <div className="grid w-full grid-cols-1 gap-3 text-sm sm:grid-cols-3 md:max-w-md">
