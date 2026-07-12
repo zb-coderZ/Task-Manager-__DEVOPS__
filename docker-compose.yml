@@ -8,10 +8,14 @@ services:
     ports:
       - "5000:5000"
 
-frontend:
-  build:
-    context: ./frontend
-    args:
-      VITE_API_URL: http://20.40.52.150:5000/api
-  ports:
-    - "5173:5173"
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://20.40.52.150:5000/api
+    container_name: frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
