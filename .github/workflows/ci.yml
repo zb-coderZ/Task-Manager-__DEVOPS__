@@ -82,7 +82,7 @@ jobs:
           AZURE_APP_DIRECTORY: ${{ secrets.AZURE_APP_DIRECTORY }}
 
         run: |
-          ssh -i mern-server_key.pem ${AZURE_USER}@${AZURE_HOST} << 'EOF'
+          ssh -i mern-server_key.pem ${AZURE_USER}@${AZURE_HOST} << EOF
 
           set -e
 
