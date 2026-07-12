@@ -50,3 +50,51 @@ jobs:
 
       - name: Build frontend image
         run: docker build -t frontend ./frontend
+
+  deploy:
+    needs: build-and-lint
+    if: github.event_name == 'push'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Add Azure host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "$AZURE_HOST" >> ~/.ssh/known_hosts
+        env:
+          AZURE_HOST: ${{ secrets.AZURE_HOST }}
+
+      - name: Write SSH key
+        run: |
+          echo "${AZURE_KEY}" > mern-server_key.pem
+          chmod 600 mern-server_key.pem
+        env:
+          AZURE_KEY: ${{ secrets.AZURE_KEY }}
+
+      - name: Deploy on Azure
+        env:
+          AZURE_HOST: ${{ secrets.AZURE_HOST }}
+          AZURE_USER: ${{ secrets.AZURE_USER }}
+          AZURE_APP_DIRECTORY: ${{ secrets.AZURE_APP_DIRECTORY }}
+
+        run: |
+          ssh -i mern-server_key.pem ${AZURE_USER}@${AZURE_HOST} << 'EOF'
+
+          set -e
+
+          cd "${AZURE_APP_DIRECTORY}"
+
+          git fetch --all
+          git reset --hard origin/Main
+
+          docker compose up -d --build
+
+          docker image prune -f
+
+          docker compose ps
+
+          EOF
