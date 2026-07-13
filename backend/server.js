@@ -10,22 +10,11 @@ const taskRoutes = require('./routes/taskRoutes');
 const app = express();
 
 // CORS Middleware
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://20.40.52.150:5173',
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: true,
     credentials: true,
-  })
+  }),
 );
 
 // Body Parser Middleware
