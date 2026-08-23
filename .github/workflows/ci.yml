@@ -63,8 +63,10 @@ jobs:
 
       - name: Add Azure host to known_hosts
         run: |
+          set -x
           mkdir -p ~/.ssh
-          ssh-keyscan -H "$AZURE_HOST" >> ~/.ssh/known_hosts
+          echo "AZURE_HOST value is: [$AZURE_HOST]"
+          ssh-keyscan -T 10 -H "$AZURE_HOST" >> ~/.ssh/known_hosts
         env:
           AZURE_HOST: ${{ secrets.AZURE_HOST }}
 
@@ -89,6 +91,7 @@ jobs:
           cd "${AZURE_APP_DIRECTORY}"
 
           git fetch --all
+
           git reset --hard origin/Main
 
           docker compose up -d --build
@@ -98,3 +101,4 @@ jobs:
           docker compose ps
 
           EOF
+          
