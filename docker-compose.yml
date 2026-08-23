@@ -1,5 +1,6 @@
 services:
 
+  # MongoDB is Added
   mongo:
     image: mongo:6.0
     container_name: mongo
@@ -8,7 +9,7 @@ services:
       - mongo-data:/data/db
     networks:
       - mern-network
-
+# Backend is Added
   backend:
     build:
       context: ./backend
@@ -24,6 +25,7 @@ services:
     networks:
       - mern-network
 
+# Frontend is Added
   frontend:
     build:
       context: ./frontend
