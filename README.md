@@ -1,6 +1,6 @@
 # 📋 MERN Task Manager (DevOps Enabled)
 
-A full-stack, production-ready Task Management web application built with the **MERN** stack (MongoDB, Express, React, Node.js), featuring **Docker** containerization and automated **CI/CD pipelines via GitHub Actions**.
+A full-stack, production-ready Task Management web application built with the **MERN** stack (MongoDB, Express, React, Node.js), featuring **Docker** containerization and automated **CI/CD via Azure Pipelines**, deployed to **Azure App Service** through **Azure Container Registry**.
 
 ---
 
@@ -9,8 +9,8 @@ A full-stack, production-ready Task Management web application built with the **
 - **🔐 Authentication & Authorization:** User registration and login powered by JSON Web Tokens (JWT) and `bcryptjs` password hashing.
 - **📝 Task Management (CRUD):** Create, read, update, and delete user-specific tasks with priorities and statuses.
 - **🎨 Modern UI:** Fast, responsive frontend powered by React 19, Vite, and Tailwind CSS v4.
-- **🐳 Containerized Architecture:** Multi-container setup with Docker & Docker Compose isolating MongoDB, Backend, and Frontend services.
-- **⚙️ Automated CI/CD:** GitHub Actions workflow that automatically lints, builds Docker images, and deploys to an Azure server on every push.
+- **🐳 Containerized Architecture:** Multi-container setup with Docker & Docker Compose isolating MongoDB, Backend, and Frontend services, with custom networking between containers and persistent volumes for data storage.
+- **☁️ Automated CI/CD on Azure:** Azure Pipelines automatically lints and builds the app, pushes Docker images to Azure Container Registry (ACR), and deploys to Azure App Service on every push.
 
 ---
 
@@ -22,8 +22,8 @@ A full-stack, production-ready Task Management web application built with the **
 | **Backend** | Node.js, Express.js (v5), Mongoose (v9) |
 | **Database** | MongoDB 6.0 |
 | **Security** | JWT (jsonwebtoken), bcryptjs, CORS |
-| **Containerization** | Docker, Docker Compose |
-| **CI/CD & Deployment** | GitHub Actions, SSH, Azure Virtual Machine |
+| **Containerization** | Docker, Docker Compose (custom networks, persistent volumes) |
+| **CI/CD & Deployment** | Azure Pipelines, Azure Container Registry (ACR), Azure App Service |
 | **Code Quality** | ESLint, Prettier |
 
 ---
@@ -32,9 +32,7 @@ A full-stack, production-ready Task Management web application built with the **
 
 ```text
 task manager/
-├── .github/
-│   └── workflows/
-│       └── ci.yml             # GitHub Actions CI/CD Pipeline
+├── azure-pipelines.yml        # Azure Pipelines CI/CD definition
 ├── backend/
 │   ├── config/                # Database connection config
 │   ├── controllers/           # Auth & Task controller logic
@@ -50,7 +48,7 @@ task manager/
 │   ├── dockerfile             # Docker container definition for Frontend
 │   ├── package.json           # Frontend dependencies and scripts
 │   └── vite.config.js         # Vite bundler configuration
-├── docker-compose.yml         # Multi-service orchestration configuration
+├── docker-compose.yml         # Multi-service orchestration configuration (networks + volumes)
 └── README.md                  # Project documentation
 ```
 
@@ -150,20 +148,30 @@ The frontend dev server will run on `http://localhost:5173`.
 
 ---
 
-## 🔄 CI/CD & Deployment Pipeline
+## 🔄 CI/CD & Deployment Pipeline (Azure Pipelines)
 
-This repository includes a preconfigured GitHub Actions pipeline (`.github/workflows/ci.yml`):
+This repository includes a preconfigured Azure Pipelines definition (`azure-pipelines.yml`):
 
 1. **Continuous Integration (CI):**
    - Triggers on push or PR to `Main` and `dev` branches.
    - Installs dependencies for backend and frontend.
    - Runs ESLint checks on both subprojects.
-   - Builds Docker images to ensure Dockerfiles are valid.
+   - Builds Docker images for the backend and frontend to validate the Dockerfiles.
 
-2. **Continuous Deployment (CD):**
+2. **Continuous Delivery (Push to ACR):**
+   - On a successful build, tags the Docker images and pushes them to **Azure Container Registry (ACR)**.
+
+3. **Continuous Deployment (Deploy to Azure App Service):**
    - Executes automatically on direct push to `Main`.
-   - Connects to an Azure VM via SSH using encrypted secrets (`AZURE_HOST`, `AZURE_KEY`, `AZURE_USER`, `AZURE_APP_DIRECTORY`).
-   - Fetches latest code, builds containers, and executes `docker compose up -d --build`.
+   - Pulls the latest images from ACR and deploys them to **Azure App Service** using Azure service connection credentials configured in the pipeline.
+   - No manual SSH or server access required — deployment is fully managed by Azure App Service.
+
+---
+
+## 🐳 Docker Networking & Volumes
+
+- Backend, frontend, and MongoDB run as isolated services on a custom Docker Compose network, so containers communicate by service name rather than exposed host ports.
+- MongoDB data is persisted with a named Docker volume, so data survives container restarts and rebuilds.
 
 ---
 
@@ -184,3 +192,12 @@ npm run lint       # Run ESLint check
 npm run lint:fix   # Fix ESLint errors automatically
 npm run format     # Format code with Prettier
 ```
+
+---
+
+## ✅ CodeAlpha DevOps Internship — Task Coverage
+
+This project covers **2 of the 4** internship tasks:
+
+- **Task 1: CI/CD Pipeline using Azure** — Azure Pipelines builds and tests the app, pushes images to Azure Container Registry, and deploys to Azure App Service.
+- **Task 4: Web Server using Docker** — Full Docker Compose setup with custom networking and persistent volumes across backend, frontend, and MongoDB services.
