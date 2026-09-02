@@ -15,6 +15,7 @@ services:
       context: ./backend
       dockerfile: dockerfile
     container_name: backend
+    image:  "mern-backend:jenkins"
     restart: unless-stopped
     env_file:
       - ./backend/.env
@@ -33,6 +34,7 @@ services:
       args:
         VITE_API_URL: http://localhost:5000/api
     container_name: frontend
+    image:  "mern-frontend:jenkins"
     restart: unless-stopped
     ports:
       - "5173:5173"

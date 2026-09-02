@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        BACKEND_IMAGE  = "mern-backend-p1:jenkins"
-        FRONTEND_IMAGE = "mern-frontend-p1:jenkins"
+        BACKEND_IMAGE  = "mern-backend:jenkins"
+        FRONTEND_IMAGE = "mern-frontend:jenkins"
         PORT           = "5000"
         MONGO_URI      = "mongodb://mongo:27017/taskdb"
     }
@@ -12,8 +12,7 @@ pipeline {
 
         stage("Checkout Code") {
             steps {
-                git url: 'https://github.com/zb-coderZ/Task-Manager-__DEVOPS__',
-                    branch: 'Main'
+                git url: 'https://github.com/zb-coderZ/Task-Manager-__DEVOPS__', branch: 'Main'
             }
         }
 
