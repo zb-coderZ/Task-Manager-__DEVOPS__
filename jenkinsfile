@@ -1,0 +1,87 @@
+pipeline {
+    agent any
+
+    environment {
+        BACKEND_IMAGE  = "mern-backend-p1:jenkins"
+        FRONTEND_IMAGE = "mern-frontend-p1:jenkins"
+        PORT           = "5000"
+        MONGO_URI      = "mongodb://mongo:27017/taskdb"
+    }
+
+    stages {
+
+        stage("Checkout Code") {
+            steps {
+                git url: 'https://github.com/zb-coderZ/Task-Manager-__DEVOPS__',
+                    branch: 'main'
+            }
+        }
+
+        stage("Prepare .env") {
+            steps {
+                sh '''
+                mkdir -p backend
+
+                cat > backend/.env <<EOF
+PORT=$PORT
+MONGO_URI=$MONGO_URI
+EOF
+                '''
+            }
+        }
+
+        stage("Build Docker Images") {
+            steps {
+                sh '''
+                echo "Building Backend Image..."
+                docker build -t $BACKEND_IMAGE ./backend
+
+                echo "Building Frontend Image..."
+                docker build -t $FRONTEND_IMAGE ./frontend --build-arg VITE_API_URL=http://localhost:5000/api
+                '''
+            }
+        }
+
+        stage("Docker Compose Setup") {
+            steps {
+                sh '''
+                echo "Docker Compose is running..."
+
+                docker compose up -d
+
+                echo "Waiting for containers to settle..."
+                sleep 5
+
+                echo "Showing running containers..."
+                docker ps
+                '''
+            }
+        }
+
+        stage("Check Frontend and Backend Logs") {
+            steps {
+                sh '''
+                echo "----- BACKEND LOGS -----"
+                docker compose logs backend --tail=100
+
+                echo "----- FRONTEND LOGS -----"
+                docker compose logs frontend --tail=100
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline finished. Dumping final container logs for debugging..."
+
+            sh '''
+            docker compose logs --tail=200 || true
+            '''
+        }
+
+        failure {
+            echo "Pipeline failed. Check the Build Docker Images / Docker Compose stages above."
+        }
+    }
+}
