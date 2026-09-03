@@ -199,5 +199,15 @@ npm run format     # Format code with Prettier
 
 This project covers **2 of the 4** internship tasks:
 
-- **Task 1: CI/CD Pipeline using Azure** — Azure Pipelines builds and tests the app, pushes images to Azure Container Registry, and deploys to Azure App Service.
-- **Task 4: Web Server using Docker** — Full Docker Compose setup with custom networking and persistent volumes across backend, frontend, and MongoDB services.
+- **Task 1: CI/CD Pipeline using Azure**:
+ Azure Pipelines builds and tests the app, pushes images to Azure Container Registry, and deploys to Azure App Service.
+ 
+- **Task 2: Web Server using Docker**:
+Full Docker Compose setup with custom networking and persistent volumes across backend, frontend, and MongoDB services.
+
+- **TASK 3: Jenkins Remoting Project**:
+Discussed the concept of Jenkins Remoting (Distributed Builds) — connecting remote agent nodes to a central Jenkins controller.
+Covered the core idea: builds run on separate machines instead of just the controller, so workloads get distributed across nodes securely.
+Discussed running jobs on different architectures/OS (Linux, Windows, ARM) using remote nodes.
+Covered node isolation as a security practice — running sensitive builds only on designated nodes.
+Talked through the general setup flow: configure an agent (via SSH, JNLP, or Docker agent) → attach it under Manage Jenkins → Nodes → assign jobs to nodes using labels.
