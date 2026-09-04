@@ -197,7 +197,7 @@ npm run format     # Format code with Prettier
 
 ## ✅ CodeAlpha DevOps Internship — Task Coverage
 
-This project covers **2 of the 4** internship tasks:
+This project covers **3 of the 4** internship tasks:
 
 - **Task 1: CI/CD Pipeline using Azure**:
  Azure Pipelines builds and tests the app, pushes images to Azure Container Registry, and deploys to Azure App Service.
