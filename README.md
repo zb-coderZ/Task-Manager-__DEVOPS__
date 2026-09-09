@@ -10,7 +10,7 @@ A full-stack, production-ready Task Management web application built with the **
 - **📝 Task Management (CRUD):** Create, read, update, and delete user-specific tasks with priorities and statuses.
 - **🎨 Modern UI:** Fast, responsive frontend powered by React 19, Vite, and Tailwind CSS v4.
 - **🐳 Containerized Architecture:** Multi-container setup with Docker & Docker Compose isolating MongoDB, Backend, and Frontend services, with custom networking between containers and persistent volumes for data storage.
-- **☁️ Automated CI/CD on Azure:** Azure Pipelines automatically lints and builds the app, pushes Docker images to Azure Container Registry (ACR), and deploys to Azure App Service on every push.
+- **☁️ Automated CI/CD:** Azure Pipelines handles cloud deployment, while Jenkins checks out the code, builds the Docker images, starts the Docker Compose services, and collects container logs for validation and troubleshooting.
 
 ---
 
@@ -23,7 +23,7 @@ A full-stack, production-ready Task Management web application built with the **
 | **Database** | MongoDB 6.0 |
 | **Security** | JWT (jsonwebtoken), bcryptjs, CORS |
 | **Containerization** | Docker, Docker Compose (custom networks, persistent volumes) |
-| **CI/CD & Deployment** | Azure Pipelines, Azure Container Registry (ACR), Azure App Service |
+| **CI/CD & Deployment** | Jenkins, Azure Pipelines, Azure Container Registry (ACR), Azure App Service |
 | **Code Quality** | ESLint, Prettier |
 
 ---
@@ -33,6 +33,7 @@ A full-stack, production-ready Task Management web application built with the **
 ```text
 task manager/
 ├── azure-pipelines.yml        # Azure Pipelines CI/CD definition
+├── Jenkinsfile                 # Jenkins Docker build and Compose pipeline
 ├── backend/
 │   ├── config/                # Database connection config
 │   ├── controllers/           # Auth & Task controller logic
@@ -148,7 +149,21 @@ The frontend dev server will run on `http://localhost:5173`.
 
 ---
 
-## 🔄 CI/CD & Deployment Pipeline (Azure Pipelines)
+## 🔄 CI/CD & Deployment Pipelines
+
+### Jenkins Pipeline
+
+The `Jenkinsfile` defines a Jenkins pipeline that validates the containerized application:
+
+1. Checks out the `Main` branch from the GitHub repository.
+2. Creates the backend `.env` file with the required runtime configuration.
+3. Builds Docker images for the backend and frontend.
+4. Starts the application with Docker Compose and verifies running containers.
+5. Displays backend and frontend logs, with final logs collected even when a build fails.
+
+The Jenkins agent must have Docker, Docker Compose, and permission to run Docker commands.
+
+### Azure Pipelines
 
 This repository includes a preconfigured Azure Pipelines definition (`azure-pipelines.yml`):
 
@@ -200,14 +215,10 @@ npm run format     # Format code with Prettier
 This project covers **3 of the 4** internship tasks:
 
 - **Task 1: CI/CD Pipeline using Azure**:
- Azure Pipelines builds and tests the app, pushes images to Azure Container Registry, and deploys to Azure App Service.
+Azure Pipelines builds and tests the app, pushes images to Azure Container Registry, and deploys to Azure App Service. The repository also includes a Jenkins pipeline for Docker-based build and runtime validation.
  
 - **Task 2: Web Server using Docker**:
 Full Docker Compose setup with custom networking and persistent volumes across backend, frontend, and MongoDB services.
 
-- **TASK 3: Jenkins Remoting Project**:
-Discussed the concept of Jenkins Remoting (Distributed Builds) — connecting remote agent nodes to a central Jenkins controller.
-Covered the core idea: builds run on separate machines instead of just the controller, so workloads get distributed across nodes securely.
-Discussed running jobs on different architectures/OS (Linux, Windows, ARM) using remote nodes.
-Covered node isolation as a security practice — running sensitive builds only on designated nodes.
-Talked through the general setup flow: configure an agent (via SSH, JNLP, or Docker agent) → attach it under Manage Jenkins → Nodes → assign jobs to nodes using labels.
+- **Task 3: Jenkins Remoting Project**:
+The project includes a working `Jenkinsfile` that runs on a Jenkins agent and performs Docker image builds, Docker Compose startup, container checks, and log collection. This demonstrates the practical Jenkins pipeline used for the project, alongside the Jenkins Remoting concepts: connecting remote agent nodes to a central Jenkins controller, distributing builds across machines, supporting different operating systems and architectures, and assigning jobs to labeled nodes.
