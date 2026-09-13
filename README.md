@@ -10,6 +10,7 @@ A full-stack, production-ready Task Management web application built with the **
 - **📝 Task Management (CRUD):** Create, read, update, and delete user-specific tasks with priorities and statuses.
 - **🎨 Modern UI:** Fast, responsive frontend powered by React 19, Vite, and Tailwind CSS v4.
 - **🐳 Containerized Architecture:** Multi-container setup with Docker & Docker Compose isolating MongoDB, Backend, and Frontend services, with custom networking between containers and persistent volumes for data storage.
+- **🌐 Nginx Reverse Proxy:** Nginx is configured as the public entry point, serving the frontend and routing `/api` requests to the backend through a single port.
 - **☁️ Automated CI/CD:** Azure Pipelines handles cloud deployment, while Jenkins checks out the code, builds the Docker images, starts the Docker Compose services, and collects container logs for validation and troubleshooting.
 
 ---
@@ -23,6 +24,7 @@ A full-stack, production-ready Task Management web application built with the **
 | **Database** | MongoDB 6.0 |
 | **Security** | JWT (jsonwebtoken), bcryptjs, CORS |
 | **Containerization** | Docker, Docker Compose (custom networks, persistent volumes) |
+| **Web Server / Proxy** | Nginx (reverse proxy and request routing) |
 | **CI/CD & Deployment** | Jenkins, Azure Pipelines, Azure Container Registry (ACR), Azure App Service |
 | **Code Quality** | ESLint, Prettier |
 
@@ -50,6 +52,8 @@ task manager/
 │   ├── package.json           # Frontend dependencies and scripts
 │   └── vite.config.js         # Vite bundler configuration
 ├── docker-compose.yml         # Multi-service orchestration configuration (networks + volumes)
+├── nginx/
+│   └── nginx.conf             # Nginx reverse proxy and health-check configuration
 └── README.md                  # Project documentation
 ```
 
@@ -95,8 +99,9 @@ You can run this application locally using **Docker Compose** (recommended) or m
    ```
 
 3. **Access the application:**
-   - **Frontend:** `http://localhost:5173`
-   - **Backend API:** `http://localhost:5000`
+   - **Application through Nginx:** `http://localhost`
+   - **Backend API through Nginx:** `http://localhost/api`
+   - **Nginx health check:** `http://localhost/nginx-health`
    - **MongoDB:** running inside container at `mongodb://localhost:27017`
 
 4. **Stop the services:**
@@ -126,6 +131,18 @@ npm install
 npm run dev
 ```
 The frontend dev server will run on `http://localhost:5173`.
+
+---
+
+## 🌐 Nginx Reverse Proxy
+
+Nginx has been successfully configured and integrated into the Docker Compose deployment. It acts as the single public entry point on port `80` and routes requests across the application services:
+
+- Requests to `/` are proxied to the React/Vite frontend.
+- Requests to `/api` are proxied to the Express backend.
+- `GET /nginx-health` returns `ok` for container and load-balancer health checks.
+
+The frontend and backend are exposed only inside the Docker network, while Nginx publishes the application through `http://localhost`.
 
 ---
 
