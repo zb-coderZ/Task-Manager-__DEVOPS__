@@ -9,44 +9,58 @@ services:
       - mongo-data:/data/db
     networks:
       - mern-network
-# Backend is Added
+
+  # Backend is Added
   backend:
     build:
       context: ./backend
       dockerfile: dockerfile
     container_name: backend
-    image:  "mern-backend:jenkins"
+    image: "mern-backend:jenkins"
     restart: unless-stopped
     env_file:
       - ./backend/.env
-    ports:
-      - "5000:5000"
+    expose:
+      - "5000"
     depends_on:
       - mongo
     networks:
       - mern-network
 
-# Frontend is Added
+  # Frontend is Added
   frontend:
     build:
       context: ./frontend
       dockerfile: dockerfile
       args:
-        VITE_API_URL: http://localhost:5000/api
+        VITE_API_URL: "/api"
     container_name: frontend
-    image:  "mern-frontend:jenkins"
+    image: "mern-frontend:jenkins"
     restart: unless-stopped
-    ports:
-      - "5173:5173"
+    expose:
+      - "5173"
     depends_on:
       - backend
     networks:
       - mern-network
 
+  # Nginx is Added
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - mern-network
 
 volumes:
   mongo-data:
-
 
 networks:
   mern-network:
