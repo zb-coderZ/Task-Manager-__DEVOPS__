@@ -41,4 +41,4 @@ spec:
     - port: 5173
       targetPort: 5173
 
-  type: ClusterIP
+  type: NodePort
