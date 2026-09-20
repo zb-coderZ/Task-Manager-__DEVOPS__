@@ -27,30 +27,15 @@ spec:
           ports:
             - containerPort: 5000
 
-          envFrom:
-            - configMapRef:
-                name: app-config
-
           env:
             - name: MONGO_URI
               value: "mongodb://mongo:27017/taskdb"
 
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 5000
-            initialDelaySeconds: 3
-            periodSeconds: 5
-            failureThreshold: 3
-
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 5000
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            failureThreshold: 3
-
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: JWT_SECRET
 
 ---
 apiVersion: v1
