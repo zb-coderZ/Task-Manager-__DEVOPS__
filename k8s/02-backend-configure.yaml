@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: devops-part3
+  labels:
+    app: backend
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      labels:
+        app: backend
+
+    spec:
+      containers:
+        - name: backend
+          image: backend:local
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - containerPort: 5000
+
+          envFrom:
+            - configMapRef:
+                name: app-config
+
+          env:
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGO_URI
+
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: JWT_SECRET
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: devops-part3
+
+spec:
+  selector:
+    app: backend
+
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+
+  type: ClusterIP
