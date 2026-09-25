@@ -1,76 +1,143 @@
-# 📋 MERN Task Manager (DevOps Enabled)
+# 📋 MERN Task Manager — DevOps Enabled
 
-A full-stack, production-ready Task Management web application built with the **MERN** stack (MongoDB, Express, React, Node.js), featuring **Docker** containerization, **Kubernetes deployment with Minikube**, automated **CI/CD via Azure Pipelines**, and deployment to **Azure App Service** through **Azure Container Registry**.
+A full-stack Task Management web application built with the **MERN stack (MongoDB, Express.js, React, Node.js)** and extended with practical DevOps technologies including **Docker, Docker Compose, Nginx, Jenkins, Azure Pipelines, Azure Container Registry, Azure App Service, Kubernetes, and Minikube**.
+
+The project demonstrates containerization, CI/CD, service-based networking, Kubernetes deployments, configuration management, secrets, replicas, and declarative infrastructure.
 
 ---
 
 ## ✨ Features
 
-- **🔐 Authentication & Authorization:** User registration and login powered by JSON Web Tokens (JWT) and `bcryptjs` password hashing.
-- **📝 Task Management (CRUD):** Create, read, update, and delete user-specific tasks with priorities and statuses.
-- **🎨 Modern UI:** Fast, responsive frontend powered by React 19, Vite, and Tailwind CSS v4.
-- **🐳 Containerized Architecture:** Multi-container setup with Docker & Docker Compose isolating MongoDB, Backend, and Frontend services, with custom networking between containers and persistent volumes for data storage.
-- **☸️ Kubernetes Deployment:** Application services are deployed to a local Kubernetes cluster using Minikube, with separate Deployments and Services for MongoDB, Backend, and Frontend.
-- **🌐 Nginx Reverse Proxy:** Nginx is configured as the public entry point, serving the frontend and routing `/api` requests to the backend through a single port.
-- **☁️ Automated CI/CD:** Azure Pipelines handles cloud deployment, while Jenkins checks out the code, builds the Docker images, starts the Docker Compose services, and collects container logs for validation and troubleshooting.
+* 🔐 **Authentication & Authorization**
+
+  * User registration and login
+  * JWT-based authentication
+  * Password hashing with `bcryptjs`
+
+* 📝 **Task Management**
+
+  * Create tasks
+  * View tasks
+  * Update tasks
+  * Delete tasks
+  * User-specific tasks
+  * Task priorities and statuses
+
+* 🎨 **Modern Frontend**
+
+  * React 19
+  * Vite
+  * Tailwind CSS v4
+  * React Router v7
+  * Axios
+
+* 🐳 **Docker & Docker Compose**
+
+  * Containerized frontend, backend, and MongoDB
+  * Custom Docker network
+  * Persistent MongoDB volume
+  * Multi-container application orchestration
+
+* 🌐 **Nginx Reverse Proxy**
+
+  * Single public entry point
+  * Frontend routing through `/`
+  * Backend API routing through `/api`
+  * Nginx health endpoint
+
+* ☸️ **Kubernetes with Minikube**
+
+  * Namespace isolation
+  * MongoDB Deployment and Service
+  * Backend Deployment with 2 replicas
+  * Frontend Deployment and NodePort Service
+  * ClusterIP Services for internal communication
+  * ConfigMap
+  * Kubernetes Secret
+  * Labels and selectors
+  * Declarative configuration
+  * Rolling updates
+  * Service-based networking
+
+* 🔄 **CI/CD**
+
+  * Jenkins pipeline for Docker-based validation
+  * Azure Pipelines for CI/CD
+  * Docker image builds
+  * Azure Container Registry integration
+  * Azure App Service deployment
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
 
-| Category | Technology / Tool |
-| :--- | :--- |
-| **Frontend** | React 19, Vite, Tailwind CSS v4, Axios, React Router v7 |
-| **Backend** | Node.js, Express.js (v5), Mongoose (v9) |
-| **Database** | MongoDB 6.0 |
-| **Security** | JWT (jsonwebtoken), bcryptjs, CORS |
-| **Containerization** | Docker, Docker Compose (custom networks, persistent volumes) |
-| **Orchestration** | Kubernetes, Minikube |
-| **Web Server / Proxy** | Nginx (reverse proxy and request routing) |
-| **CI/CD & Deployment** | Jenkins, Azure Pipelines, Azure Container Registry (ACR), Azure App Service |
-| **Code Quality** | ESLint, Prettier |
+| Category           | Technology                                              |
+| ------------------ | ------------------------------------------------------- |
+| Frontend           | React 19, Vite, Tailwind CSS v4, Axios, React Router v7 |
+| Backend            | Node.js, Express.js v5, Mongoose v9                     |
+| Database           | MongoDB 6.0                                             |
+| Authentication     | JWT, bcryptjs                                           |
+| Containerization   | Docker, Docker Compose                                  |
+| Reverse Proxy      | Nginx                                                   |
+| CI/CD              | Jenkins, Azure Pipelines                                |
+| Container Registry | Azure Container Registry (ACR)                          |
+| Cloud Deployment   | Azure App Service                                       |
+| Orchestration      | Kubernetes, Minikube                                    |
+| Code Quality       | ESLint, Prettier                                        |
+| Version Control    | Git, GitHub                                             |
 
 ---
 
-## 📁 Project Structure
+# 📁 Project Structure
 
 ```text
 task manager/
-├── azure-pipelines.yml          # Azure Pipelines CI/CD definition
-├── Jenkinsfile                  # Jenkins Docker build and Compose pipeline
+│
+├── azure-pipelines.yml
+├── Jenkinsfile
+├── docker-compose.yml
+│
 ├── k8s/
-│   ├── 00-namespace.yaml        # Kubernetes namespace
-│   ├── 01-mongo.yaml            # MongoDB Deployment + Service
-│   ├── 02-backend.yaml          # Backend Deployment + Service
-│   └── 03-frontend.yaml         # Frontend Deployment + NodePort Service
+│   ├── 00-namespace.yaml
+│   ├── 01-mongo.yaml
+│   ├── 02-backend.yaml
+│   ├── 02-backend-configure.yaml
+│   ├── 03-frontend.yaml
+│   ├── configmap.yaml
+│   └── secret_mongo.yaml
+│
 ├── backend/
-│   ├── config/                  # Database connection config
-│   ├── controllers/             # Auth & Task controller logic
-│   ├── middleware/              # JWT authentication middleware
-│   ├── models/                  # Mongoose models (User, Task)
-│   ├── routes/                  # Express API routes
-│   ├── .env                     # Backend environment variables
-│   ├── dockerfile               # Docker container definition for Backend
-│   ├── package.json             # Backend dependencies and scripts
-│   └── server.js                # Express app entry point
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── .env
+│   ├── dockerfile
+│   ├── package.json
+│   └── server.js
+│
 ├── frontend/
-│   ├── src/                     # React components, pages, context, and styles
-│   ├── dockerfile               # Docker container definition for Frontend
-│   ├── package.json             # Frontend dependencies and scripts
-│   └── vite.config.js           # Vite bundler configuration
-├── docker-compose.yml            # Multi-service orchestration configuration
+│   ├── src/
+│   ├── dockerfile
+│   ├── package.json
+│   └── vite.config.js
+│
 ├── nginx/
-│   └── nginx.conf               # Nginx reverse proxy and health-check configuration
-└── README.md                    # Project documentation
+│   └── nginx.conf
+│
+└── README.md
 ```
+
+> `02-backend-configure.yaml` is the Kubernetes backend configuration used with the ConfigMap and Secret.
 
 ---
 
-## ⚙️ Environment Variables
+# ⚙️ Environment Variables
 
-### Backend Configuration (`backend/.env`)
+## Backend `.env`
 
-Create or update `backend/.env` with the following variables:
+For local development, the backend uses:
 
 ```env
 PORT=5000
@@ -78,244 +145,458 @@ MONGO_URI=mongodb://mongo:27017/taskmanager
 JWT_SECRET=your_jwt_secret_key_here
 ```
 
-### Kubernetes Configuration
+### Local MongoDB
 
-For the Minikube deployment, the backend receives the MongoDB connection through the Kubernetes MongoDB Service:
-
-```text
-mongodb://mongo:27017/taskdb
-```
-
-The JWT secret is provided to the backend through a Kubernetes Secret rather than storing it directly in the Deployment configuration.
-
-The Kubernetes Secret can be created with:
-
-```bash
-kubectl -n devops-part3 create secret generic app-secret \
-  --from-literal=JWT_SECRET="your_jwt_secret"
-```
-
-> **Note:** Do not commit real secrets to GitHub. Use Kubernetes Secrets or another secure secret-management solution for sensitive values.
-
----
-
-## 🚀 Quick Start Guide
-
-You can run this application locally using **Docker Compose**, manually using **Node.js**, or deploy it to a local Kubernetes cluster using **Minikube**.
-
-### Prerequisites
-
-- Node.js (v20+)
-- Docker & Docker Compose
-- Git
-- Kubernetes / Minikube (for Kubernetes deployment)
-
----
-
-### Option 1: Run with Docker Compose (Recommended)
-
-1. **Clone the repository:**
-
-```bash
-git clone https://github.com/zb-coderZ/Task-Manager-__DEVOPS__.git
-cd "task manager"
-```
-
-2. **Start all services:**
-
-```bash
-docker compose up --build -d
-```
-
-3. **Access the application:**
-
-- **Application through Nginx:** `http://localhost`
-- **Backend API through Nginx:** `http://localhost/api`
-- **Nginx health check:** `http://localhost/nginx-health`
-- **MongoDB:** running inside the container at `mongodb://localhost:27017`
-
-4. **Stop the services:**
-
-```bash
-docker compose down
-```
-
----
-
-### Option 2: Run Manually (Local Development)
-
-#### 1. Start MongoDB
-
-Ensure MongoDB service is running locally on port `27017`. Update `MONGO_URI` in `backend/.env` to:
+If MongoDB is running directly on the host:
 
 ```env
 MONGO_URI=mongodb://localhost:27017/taskmanager
 ```
 
-if running MongoDB natively.
+---
 
-#### 2. Start the Backend
+# ☸️ Kubernetes Configuration
 
-```bash
-cd backend
-npm install
-npm run dev
+The Kubernetes deployment uses the MongoDB Kubernetes Service for internal database communication.
+
+The backend connects to MongoDB using:
+
+```text
+mongodb://mongo:27017/taskmanager
 ```
 
-or:
+The hostname `mongo` is the Kubernetes Service name.
 
-```bash
-node server.js
-```
-
-The backend server will run on `http://localhost:5000`.
-
-#### 3. Start the Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-The frontend development server will run on `http://localhost:5173`.
+The backend does **not** use a fixed MongoDB Pod IP.
 
 ---
 
-## ☸️ Kubernetes Deployment with Minikube
+# 🔐 Kubernetes ConfigMap and Secret
 
-The application can also be deployed as a multi-tier application on a local Kubernetes cluster using **Minikube**.
+Kubernetes separates normal configuration from sensitive configuration.
 
-### Kubernetes Architecture
+## ConfigMap
 
-```text
-                    ┌─────────────────────┐
-                    │      Browser        │
-                    └──────────┬──────────┘
-                               │
-                               │ NodePort
-                               ▼
-                    ┌─────────────────────┐
-                    │ Frontend Service    │
-                    │     NodePort        │
-                    │      :32545         │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Frontend Pod        │
-                    │ React + Vite        │
-                    └─────────────────────┘
-
-                    ┌─────────────────────┐
-                    │ Backend Service     │
-                    │     ClusterIP       │
-                    │       :5000         │
-                    └──────────┬──────────┘
-                               │
-                         ┌─────┴─────┐
-                         ▼           ▼
-                    Backend Pod  Backend Pod
-                       :5000         :5000
-                         │
-                         ▼
-                    ┌─────────────────────┐
-                    │ MongoDB Service     │
-                    │     ClusterIP       │
-                    │      :27017         │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                         MongoDB Pod
-```
-
-### Kubernetes Resources
-
-The deployment uses the `devops-part3` namespace.
-
-| Resource | Type | Purpose |
-| :--- | :--- | :--- |
-| `devops-part3` | Namespace | Isolates the project resources |
-| `mongo` | Deployment | Runs MongoDB |
-| `mongo` | ClusterIP Service | Provides internal MongoDB networking |
-| `backend` | Deployment | Runs 2 backend replicas |
-| `backend` | ClusterIP Service | Provides internal backend networking |
-| `frontend` | Deployment | Runs the React frontend |
-| `frontend` | NodePort Service | Exposes frontend outside the cluster |
-| `app-secret` | Secret | Provides JWT secret securely to backend |
-
-### Kubernetes Deployment Files
+The project uses:
 
 ```text
-k8s/
-├── 00-namespace.yaml
-├── 01-mongo.yaml
-├── 02-backend.yaml
-└── 03-frontend.yaml
+app-config
 ```
 
-### 1. Create the Namespace
+Example:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: app-config
+
+data:
+  MONGO_HOST: mongo
+  FRONTEND_URL: http://localhost:5173
+```
+
+Create it with:
+
+```bash
+kubectl -n devops-part3 apply -f k8s/configmap.yaml
+```
+
+Check it:
+
+```bash
+kubectl -n devops-part3 get configmap app-config
+```
+
+---
+
+## Secret
+
+Sensitive backend values are stored in:
+
+```text
+mongo-secret
+```
+
+The Secret contains:
+
+```text
+MONGO_URI
+JWT_SECRET
+```
+
+Example:
+
+```yaml
+apiVersion: v1
+kind: Secret
+
+metadata:
+  name: mongo-secret
+
+type: Opaque
+
+stringData:
+  MONGO_URI: mongodb://mongo:27017/taskmanager
+  JWT_SECRET: mysecretkey123
+```
+
+Create/update it with:
+
+```bash
+kubectl -n devops-part3 apply -f k8s/secret_mongo.yaml
+```
+
+Check it:
+
+```bash
+kubectl -n devops-part3 get secret mongo-secret
+```
+
+> Never commit real production secrets to GitHub. Use a secure secret-management solution for production environments.
+
+---
+
+# 🏗️ Kubernetes Architecture
+
+```text
+                         Browser
+                            │
+                            │ NodePort
+                            ▼
+                 ┌──────────────────────┐
+                 │  Frontend Service    │
+                 │      NodePort        │
+                 │      :5173           │
+                 └──────────┬───────────┘
+                            │
+                            ▼
+                    ┌───────────────┐
+                    │ Frontend Pod  │
+                    │ React + Vite  │
+                    └───────┬───────┘
+                            │
+                            │ API Requests
+                            ▼
+                 ┌──────────────────────┐
+                 │  Backend Service     │
+                 │      ClusterIP       │
+                 │        :5000         │
+                 └──────────┬───────────┘
+                            │
+                     ┌──────┴──────┐
+                     ▼             ▼
+              ┌────────────┐ ┌────────────┐
+              │ Backend    │ │ Backend    │
+              │ Pod 1      │ │ Pod 2      │
+              │ :5000      │ │ :5000      │
+              └──────┬─────┘ └──────┬─────┘
+                     │               │
+                     └───────┬───────┘
+                             │
+                             │ mongo:27017
+                             ▼
+                 ┌──────────────────────┐
+                 │   MongoDB Service    │
+                 │      ClusterIP       │
+                 │       :27017         │
+                 └──────────┬───────────┘
+                            │
+                            ▼
+                     ┌─────────────┐
+                     │ MongoDB Pod │
+                     └─────────────┘
+```
+
+---
+
+# 📦 Kubernetes Resources
+
+All application resources are deployed inside:
+
+```text
+devops-part3
+```
+
+| Resource       | Type              | Purpose                              |
+| -------------- | ----------------- | ------------------------------------ |
+| `devops-part3` | Namespace         | Isolates project resources           |
+| `mongo`        | Deployment        | Runs MongoDB                         |
+| `mongo`        | ClusterIP Service | Internal MongoDB networking          |
+| `backend`      | Deployment        | Runs backend replicas                |
+| `backend`      | ClusterIP Service | Internal backend networking          |
+| `frontend`     | Deployment        | Runs React frontend                  |
+| `frontend`     | NodePort Service  | Exposes frontend outside the cluster |
+| `app-config`   | ConfigMap         | Stores non-sensitive configuration   |
+| `mongo-secret` | Secret            | Stores MongoDB URI and JWT secret    |
+
+---
+
+# 🚀 Kubernetes Deployment with Minikube
+
+## Prerequisites
+
+* Docker Desktop
+* Kubernetes
+* Minikube
+* kubectl
+* Node.js 20+
+
+Start Minikube:
+
+```bash
+minikube start --driver=docker
+```
+
+Check the cluster:
+
+```bash
+minikube status
+```
+
+---
+
+## 1. Create Namespace
 
 ```bash
 kubectl apply -f k8s/00-namespace.yaml
 ```
 
-### 2. Deploy MongoDB
+---
+
+## 2. Deploy MongoDB
 
 ```bash
-kubectl apply -f k8s/01-mongo.yaml
+kubectl -n devops-part3 apply -f k8s/01-mongo.yaml
 ```
 
-MongoDB is exposed internally using a `ClusterIP` Service:
+Check MongoDB:
+
+```bash
+kubectl -n devops-part3 get pods -l app=mongo
+```
+
+Check Service:
+
+```bash
+kubectl -n devops-part3 get svc mongo
+```
+
+Check endpoints:
+
+```bash
+kubectl -n devops-part3 get endpoints mongo
+```
+
+MongoDB is internally available through:
 
 ```text
 mongo:27017
 ```
 
-The backend connects to MongoDB through the Kubernetes Service name rather than using the Pod IP.
+---
 
-### 3. Create the Backend Secret
-
-```bash
-kubectl -n devops-part3 create secret generic app-secret \
-  --from-literal=JWT_SECRET="your_jwt_secret"
-```
-
-### 4. Deploy the Backend
+## 3. Create ConfigMap
 
 ```bash
-kubectl apply -f k8s/02-backend.yaml
+kubectl -n devops-part3 apply -f k8s/configmap.yaml
 ```
 
-The backend is configured with:
+Verify:
+
+```bash
+kubectl -n devops-part3 get configmap app-config
+```
+
+---
+
+## 4. Create Kubernetes Secret
+
+```bash
+kubectl -n devops-part3 apply -f k8s/secret_mongo.yaml
+```
+
+Verify:
+
+```bash
+kubectl -n devops-part3 get secret mongo-secret
+```
+
+---
+
+## 5. Deploy Backend
+
+The configured backend Deployment uses:
+
+* `app-config` ConfigMap
+* `mongo-secret` Secret
+* 2 backend replicas
+* Backend ClusterIP Service
+
+Apply:
+
+```bash
+kubectl -n devops-part3 apply -f k8s/02-backend-configure.yaml
+```
+
+Check Deployment:
+
+```bash
+kubectl -n devops-part3 get deployment backend
+```
+
+Check Pods:
+
+```bash
+kubectl -n devops-part3 get pods -l app=backend
+```
+
+Check Service:
+
+```bash
+kubectl -n devops-part3 get svc backend
+```
+
+Check endpoints:
+
+```bash
+kubectl -n devops-part3 get endpoints backend
+```
+
+Expected architecture:
 
 ```text
-MONGO_URI=mongodb://mongo:27017/taskdb
+backend Service
+      │
+      ├── Backend Pod 1
+      │
+      └── Backend Pod 2
 ```
 
-and receives `JWT_SECRET` from the Kubernetes Secret.
+---
 
-The backend Deployment uses **2 replicas** for basic redundancy and load distribution.
+# 🔑 Verify Backend Environment
 
-### 5. Deploy the Frontend
+Check MongoDB configuration:
 
 ```bash
-kubectl apply -f k8s/03-frontend.yaml
+kubectl -n devops-part3 exec <backend-pod-name> -- printenv | grep MONGO
 ```
 
-The frontend is exposed using a `NodePort` Service.
+On Windows PowerShell:
 
-Example:
+```powershell
+kubectl -n devops-part3 exec <backend-pod-name> -- printenv | findstr MONGO
+```
+
+Check JWT configuration:
+
+```powershell
+kubectl -n devops-part3 exec <backend-pod-name> -- printenv | findstr JWT
+```
+
+The backend receives configuration from Kubernetes rather than hardcoding sensitive values inside the Deployment.
+
+> Avoid printing real secrets in shared terminals, logs, screenshots, or documentation.
+
+---
+
+# 🔄 Updating Kubernetes Secrets
+
+Environment variables injected from Secrets are loaded when a Pod starts.
+
+If a Secret is changed, restart the Deployment:
+
+```bash
+kubectl -n devops-part3 rollout restart deployment/backend
+```
+
+Check rollout:
+
+```bash
+kubectl -n devops-part3 rollout status deployment/backend
+```
+
+Verify Pods:
+
+```bash
+kubectl -n devops-part3 get pods -l app=backend
+```
+
+---
+
+# 6. Deploy Frontend
+
+```bash
+kubectl -n devops-part3 apply -f k8s/03-frontend.yaml
+```
+
+Check frontend Pods:
+
+```bash
+kubectl -n devops-part3 get pods -l app=frontend
+```
+
+Check frontend Service:
+
+```bash
+kubectl -n devops-part3 get svc frontend
+```
+
+Check endpoints:
+
+```bash
+kubectl -n devops-part3 get endpoints frontend
+```
+
+---
+
+# 🌐 Access the Frontend
+
+The frontend uses a Kubernetes `NodePort` Service.
+
+Open it through Minikube:
+
+```bash
+minikube service frontend -n devops-part3
+```
+
+The NodePort may vary depending on the Kubernetes configuration.
+
+---
+
+# 🔌 Backend Port Forwarding
+
+For local backend testing:
+
+```bash
+kubectl -n devops-part3 port-forward svc/backend 5000:5000
+```
+
+The backend can then be accessed through:
 
 ```text
-5173:32545/TCP
+http://localhost:5000
 ```
 
-The exact NodePort can vary depending on the Kubernetes configuration.
+If the application exposes a health endpoint:
 
-### 6. Verify the Deployment
+```text
+http://localhost:5000/health
+```
 
-Check all Pods:
+---
+
+# 🔍 Kubernetes Verification Commands
+
+Check all resources:
+
+```bash
+kubectl -n devops-part3 get all
+```
+
+Check Pods:
 
 ```bash
 kubectl -n devops-part3 get pods
@@ -327,256 +608,525 @@ Check Services:
 kubectl -n devops-part3 get svc
 ```
 
-Check backend replicas:
+Check Deployments:
 
 ```bash
-kubectl -n devops-part3 get pods -l app=backend
+kubectl -n devops-part3 get deployments
 ```
 
-Check frontend:
+Check backend logs:
 
 ```bash
-kubectl -n devops-part3 get pods -l app=frontend
-```
-
-### 7. Access the Frontend
-
-The frontend can be opened through Minikube:
-
-```bash
-minikube service frontend -n devops-part3
-```
-
-For local testing, backend access can also be provided through port forwarding:
-
-```bash
-kubectl -n devops-part3 port-forward svc/backend 5000:5000
+kubectl -n devops-part3 logs -l app=backend --tail=100
 ```
 
 ---
 
-## 🔄 Kubernetes Declarative Deployment
+# 🧠 Kubernetes Concepts Demonstrated
 
-The Kubernetes configuration follows the **declarative model**.
+## Declarative Configuration
 
-Instead of manually starting containers, the YAML files describe the desired state:
+The project uses Kubernetes YAML files to describe the desired state.
 
 ```text
-YAML Desired State
-        ↓
+YAML
+  │
+  ▼
+Desired State
+  │
+  ▼
 Kubernetes Controllers
-        ↓
+  │
+  ▼
 Actual State
-        ↓
-Drift Detection
-        ↓
-Self-Healing / Reconciliation
+  │
+  ▼
+Reconciliation
 ```
 
-The project uses:
-
-- **Deployments** to manage application Pods.
-- **ReplicaSets** to maintain the requested number of Pods.
-- **Services** to provide stable networking.
-- **Labels and Selectors** to connect Services with Pods.
-- **Namespaces** to logically isolate project resources.
-- **Secrets** to provide sensitive configuration.
-- **NodePort** to expose the frontend outside the cluster.
-- **ClusterIP** for internal backend and MongoDB communication.
+Instead of manually managing individual containers, Kubernetes maintains the desired state described in the YAML files.
 
 ---
 
-## 🌐 Nginx Reverse Proxy
+## Deployments
 
-Nginx has been successfully configured and integrated into the Docker Compose deployment. It acts as the single public entry point on port `80` and routes requests across the application services:
+Deployments manage application Pods.
 
-- Requests to `/` are proxied to the React/Vite frontend.
-- Requests to `/api` are proxied to the Express backend.
-- `GET /nginx-health` returns `ok` for container and load-balancer health checks.
+The backend uses:
 
-The frontend and backend are exposed only inside the Docker network, while Nginx publishes the application through `http://localhost`.
-
----
-
-## 📡 API Endpoints Summary
-
-### Authentication Routes (`/api/auth`)
-
-| Method | Endpoint | Description | Auth Required |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/auth/register` | Register a new user | ❌ No |
-| `POST` | `/api/auth/login` | Authenticate user & get token | ❌ No |
-
-### Task Routes (`/api/tasks`)
-
-| Method | Endpoint | Description | Auth Required |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/tasks` | Get all tasks for authenticated user | 🔒 Yes |
-| `POST` | `/api/tasks` | Create a new task | 🔒 Yes |
-| `PUT` | `/api/tasks/:id` | Update an existing task | 🔒 Yes |
-| `DELETE` | `/api/tasks/:id` | Delete a task | 🔒 Yes |
-
----
-
-## 🔄 CI/CD & Deployment Pipelines
-
-### Jenkins Pipeline
-
-The `Jenkinsfile` defines a Jenkins pipeline that validates the containerized application:
-
-1. Checks out the `Main` branch from the GitHub repository.
-2. Creates the backend `.env` file with the required runtime configuration.
-3. Builds Docker images for the backend and frontend.
-4. Starts the application with Docker Compose and verifies running containers.
-5. Displays backend and frontend logs, with final logs collected even when a build fails.
-
-The Jenkins agent must have Docker, Docker Compose, and permission to run Docker commands.
-
-### Azure Pipelines
-
-This repository includes a preconfigured Azure Pipelines definition (`azure-pipelines.yml`):
-
-1. **Continuous Integration (CI):**
-   - Triggers on push or PR to `Main` and `dev` branches.
-   - Installs dependencies for backend and frontend.
-   - Runs ESLint checks on both subprojects.
-   - Builds Docker images for the backend and frontend to validate the Dockerfiles.
-
-2. **Continuous Delivery (Push to ACR):**
-   - On a successful build, tags the Docker images and pushes them to **Azure Container Registry (ACR)**.
-
-3. **Continuous Deployment (Deploy to Azure App Service):**
-   - Executes automatically on direct push to `Main`.
-   - Pulls the latest images from ACR and deploys them to **Azure App Service** using Azure service connection credentials configured in the pipeline.
-   - No manual SSH or server access required — deployment is fully managed by Azure App Service.
-
----
-
-## 🐳 Docker Networking & Volumes
-
-- Backend, frontend, and MongoDB run as isolated services on a custom Docker Compose network, so containers communicate by service name rather than exposed host ports.
-- MongoDB data is persisted with a named Docker volume, so data survives container restarts and rebuilds.
-
-### Kubernetes Networking
-
-The Kubernetes deployment uses Services for stable communication:
-
-```text
-Frontend
-   │
-   │ NodePort
-   ▼
-Frontend Pod
-
-Backend Service
-   │
-   ├── Backend Pod 1
-   └── Backend Pod 2
-
-Backend
-   │
-   │ mongo:27017
-   ▼
-MongoDB Service
-   │
-   ▼
-MongoDB Pod
+```yaml
+replicas: 2
 ```
 
-The backend does not depend on a fixed MongoDB Pod IP. It communicates using the Kubernetes Service name:
+Therefore Kubernetes maintains two backend replicas.
+
+---
+
+## ReplicaSets
+
+Deployments create and manage ReplicaSets.
 
 ```text
+Deployment
+     │
+     ▼
+ReplicaSet
+     │
+ ┌───┴───┐
+ ▼       ▼
+Pod     Pod
+```
+
+ReplicaSets help maintain the requested number of Pods.
+
+---
+
+## Services
+
+Services provide stable networking for Pods.
+
+### ClusterIP
+
+Used for internal communication:
+
+```text
+backend:5000
 mongo:27017
 ```
 
----
+### NodePort
 
-## 🧪 Code Quality Commands
+Used to expose the frontend outside the cluster:
 
-### Backend
-
-```bash
-cd backend
-npm run lint
-npm run lint:fix
-npm run format
-```
-
-### Frontend
-
-```bash
-cd frontend
-npm run lint
-npm run lint:fix
-npm run format
+```text
+Browser
+   │
+   ▼
+NodePort
+   │
+   ▼
+Frontend Service
+   │
+   ▼
+Frontend Pod
 ```
 
 ---
 
-## ✅ CodeAlpha DevOps Internship — Task Coverage
+## Labels and Selectors
 
-This project covers **3 of the 4** internship tasks:
+Pods use labels such as:
 
-### Task 1: CI/CD Pipeline using Azure
+```yaml
+labels:
+  app: backend
+```
 
-Azure Pipelines builds and tests the app, pushes images to Azure Container Registry, and deploys to Azure App Service. The repository also includes a Jenkins pipeline for Docker-based build and runtime validation.
+Services use selectors:
 
-### Task 2: Web Server using Docker
+```yaml
+selector:
+  app: backend
+```
 
-Full Docker Compose setup with custom networking and persistent volumes across backend, frontend, and MongoDB services.
-
-### Task 3: Jenkins Remoting Project
-
-The project includes a working `Jenkinsfile` that runs on a Jenkins agent and performs Docker image builds, Docker Compose startup, container checks, and log collection. This demonstrates the practical Jenkins pipeline used for the project, alongside the Jenkins Remoting concepts: connecting remote agent nodes to a central Jenkins controller, distributing builds across machines, supporting different operating systems and architectures, and assigning jobs to labeled nodes.
-
-### Additional DevOps Work: Kubernetes
-
-The project also includes a local Kubernetes deployment using Minikube:
-
-- Kubernetes Namespace
-- MongoDB Deployment and ClusterIP Service
-- Backend Deployment with 2 replicas
-- Backend ClusterIP Service
-- Frontend Deployment
-- Frontend NodePort Service
-- Kubernetes Secret for JWT configuration
-- Declarative desired-state configuration
-- Service-based internal networking
-- Pod replica management
-- Kubernetes troubleshooting and verification
+This allows the Service to discover the correct backend Pods.
 
 ---
 
-## 📌 Deployment Architecture Summary
+## ConfigMap
+
+Used for non-sensitive configuration:
+
+```text
+app-config
+```
+
+---
+
+## Secret
+
+Used for sensitive configuration:
+
+```text
+mongo-secret
+```
+
+---
+
+## Rolling Updates
+
+When the Backend Deployment configuration changes, Kubernetes creates new Pods and gradually removes the old Pods.
+
+```text
+Old Pods
+   │
+   ▼
+New Pods Created
+   │
+   ▼
+New Pods Become Ready
+   │
+   ▼
+Old Pods Terminated
+```
+
+This was tested during the project's ConfigMap and Secret configuration.
+
+---
+
+# 🌐 Nginx Reverse Proxy
+
+Nginx is used in the Docker Compose deployment as the public entry point.
+
+```text
+                    Browser
+                       │
+                       ▼
+                  Nginx :80
+                       │
+              ┌────────┴────────┐
+              │                 │
+              ▼                 ▼
+          Frontend           Backend
+             /                /api
+```
+
+### Routes
+
+Frontend:
+
+```text
+/
+```
+
+Backend:
+
+```text
+/api
+```
+
+Health check:
+
+```text
+/nginx-health
+```
+
+The Docker Compose application can therefore be accessed through:
+
+```text
+http://localhost
+```
+
+---
+
+# 🐳 Docker Compose
+
+Start the complete application:
+
+```bash
+docker compose up --build -d
+```
+
+Check running containers:
+
+```bash
+docker compose ps
+```
+
+View logs:
+
+```bash
+docker compose logs
+```
+
+Stop the application:
+
+```bash
+docker compose down
+```
+
+MongoDB data is stored using a Docker named volume so that data can survive container restarts.
+
+---
+
+# 🔄 CI/CD
+
+## Jenkins Pipeline
+
+The Jenkins pipeline performs Docker-based application validation.
+
+The pipeline:
+
+1. Checks out the GitHub repository.
+2. Creates the backend environment configuration.
+3. Builds backend and frontend Docker images.
+4. Starts Docker Compose services.
+5. Checks running containers.
+6. Collects application logs.
+7. Performs validation and troubleshooting output.
+
+---
+
+## Azure Pipelines
+
+The Azure Pipeline provides CI/CD automation.
+
+### Continuous Integration
+
+The pipeline:
+
+* Triggers for configured branches.
+* Installs backend dependencies.
+* Installs frontend dependencies.
+* Runs ESLint.
+* Builds Docker images.
+
+### Container Registry
+
+Successful builds can push Docker images to:
+
+```text
+Azure Container Registry (ACR)
+```
+
+### Azure Deployment
+
+The pipeline can deploy containerized application images to:
+
+```text
+Azure App Service
+```
+
+The deployment uses configured Azure service connection credentials rather than requiring manual SSH deployment.
+
+---
+
+# ☁️ Deployment Architecture
 
 ```text
                          GitHub
                             │
-             ┌──────────────┴──────────────┐
-             ▼                             ▼
-        Jenkins Pipeline             Azure Pipelines
-             │                             │
-             ▼                             ▼
-      Docker Build                   Docker Build
-             │                             │
-             ▼                             ▼
-       Docker Compose                    ACR
-             │                             │
-             ▼                             ▼
-      Local Validation             Azure App Service
+                 ┌──────────┴──────────┐
+                 │                     │
+                 ▼                     ▼
+             Jenkins            Azure Pipelines
+                 │                     │
+                 ▼                     ▼
+           Docker Build          Docker Build
+                 │                     │
+                 ▼                     ▼
+          Docker Compose              ACR
+          Local Validation             │
+                                       ▼
+                                Azure App Service
 
 
                     Local Kubernetes
-                         │
-                      Minikube
-                         │
-             ┌───────────┼───────────┐
-             ▼           ▼           ▼
-          Frontend     Backend     MongoDB
-          NodePort    ClusterIP    ClusterIP
-             │           │           │
-             └───────────┴───────────┘
-                     Services
+                           │
+                        Minikube
+                           │
+             ┌─────────────┼─────────────┐
+             ▼             ▼             ▼
+         Frontend       Backend       MongoDB
+         NodePort       ClusterIP     ClusterIP
+             │             │             │
+             └─────────────┴─────────────┘
+                         Services
 ```
 
-This project demonstrates practical DevOps concepts across **Git/GitHub, Docker, Docker Compose, Nginx, Jenkins, Azure Pipelines, ACR, Azure App Service, Kubernetes, Minikube, Deployments, Services, Secrets, networking, replicas, and declarative infrastructure configuration**.
+---
+
+# 📡 API Endpoints
+
+## Authentication
+
+| Method | Endpoint             | Description                         | Authentication |
+| ------ | -------------------- | ----------------------------------- | -------------- |
+| POST   | `/api/auth/register` | Register a new user                 | No             |
+| POST   | `/api/auth/login`    | Authenticate user and receive token | No             |
+
+## Tasks
+
+| Method | Endpoint         | Description                    | Authentication |
+| ------ | ---------------- | ------------------------------ | -------------- |
+| GET    | `/api/tasks`     | Get authenticated user's tasks | Yes            |
+| POST   | `/api/tasks`     | Create a task                  | Yes            |
+| PUT    | `/api/tasks/:id` | Update a task                  | Yes            |
+| DELETE | `/api/tasks/:id` | Delete a task                  | Yes            |
+
+---
+
+# 🧪 Code Quality
+
+## Backend
+
+```bash
+cd backend
+
+npm run lint
+npm run lint:fix
+npm run format
+```
+
+## Frontend
+
+```bash
+cd frontend
+
+npm run lint
+npm run lint:fix
+npm run format
+```
+
+---
+
+# 📚 DevOps Concepts Covered
+
+This project demonstrates practical experience with:
+
+```text
+Git & GitHub
+     ↓
+Docker
+     ↓
+Docker Compose
+     ↓
+Nginx
+     ↓
+Jenkins
+     ↓
+Azure Pipelines
+     ↓
+Azure Container Registry
+     ↓
+Azure App Service
+     ↓
+Kubernetes
+     ↓
+Minikube
+     ↓
+Deployments
+     ↓
+ReplicaSets
+     ↓
+Pods
+     ↓
+Services
+     ↓
+Labels & Selectors
+     ↓
+ConfigMaps
+     ↓
+Secrets
+     ↓
+Rolling Updates
+     ↓
+Kubernetes Networking
+```
+
+---
+
+# 🎯 CodeAlpha DevOps Internship — Task Coverage
+
+## Task 1 — CI/CD Pipeline using Azure
+
+Implemented Azure Pipelines for:
+
+* Dependency installation
+* Code quality checks
+* Docker image builds
+* Container image publishing to ACR
+* Azure App Service deployment
+
+---
+
+## Task 2 — Web Server using Docker
+
+Implemented:
+
+* Dockerized frontend
+* Dockerized backend
+* MongoDB container
+* Docker Compose
+* Custom Docker networking
+* Persistent MongoDB volume
+* Nginx reverse proxy
+
+---
+
+## Task 3 — Jenkins Remoting Project
+
+Implemented a Jenkins pipeline capable of:
+
+* Checking out source code
+* Building Docker images
+* Starting Docker Compose
+* Validating containers
+* Collecting application logs
+
+The project also demonstrates the practical use of Jenkins agents for distributed build execution.
+
+---
+
+## Additional DevOps Work — Kubernetes
+
+The project includes a local Kubernetes deployment using Minikube with:
+
+* Kubernetes Namespace
+* MongoDB Deployment
+* MongoDB ClusterIP Service
+* Backend Deployment
+* 2 Backend replicas
+* Backend ClusterIP Service
+* Frontend Deployment
+* Frontend NodePort Service
+* ConfigMap
+* Kubernetes Secret
+* Labels and selectors
+* Declarative configuration
+* Service-based networking
+* Rolling updates
+* Kubernetes troubleshooting and verification
+
+---
+
+# 🚀 Current Kubernetes Status
+
+The current Kubernetes implementation has the following architecture:
+
+```text
+Namespace: devops-part3
+
+├── MongoDB
+│   ├── Deployment
+│   └── ClusterIP Service
+│
+├── Backend
+│   ├── Deployment
+│   ├── 2 Replicas
+│   └── ClusterIP Service
+│
+├── Frontend
+│   ├── Deployment
+│   └── NodePort Service
+│
+├── ConfigMap
+│   └── app-config
+│
+└── Secret
+    └── mongo-secret
+        ├── MONGO_URI
+        └── JWT_SECRET
+```
+
+---
+
+# 📌 Project Summary
+
+This project combines a full-stack MERN application with practical DevOps workflows.
+
+It demonstrates the complete journey from application development to containerization, reverse proxy configuration, CI/CD automation, cloud deployment, and Kubernetes orchestration.
+
+The project covers:
+
+**Git/GitHub → Docker → Docker Compose → Nginx → Jenkins → Azure Pipelines → ACR → Azure App Service → Kubernetes → Minikube → Deployments → Services → ConfigMaps → Secrets → Replicas → Networking → Rolling Updates**
